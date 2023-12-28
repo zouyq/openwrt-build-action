@@ -48,7 +48,7 @@ jobs:
       - name: Maximize build space
         uses: easimon/maximize-build-space@master
         with:
-          root-reserve-mb: 512
+          root-reserve-mb: 2048
           swap-size-mb: 1024
           remove-dotnet: 'true'
           remove-android: 'true'
@@ -140,7 +140,7 @@ jobs:
 
       - name: Organize files
         id: organize
-        if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
+        if: steps.compile.outputs.status == 'success' && env.UPLOAD_FIRMWARE == 'true' && !cancelled()
         run: |
           cd openwrt/bin/targets/*/*
           rm -rf packages
@@ -174,7 +174,7 @@ jobs:
 
       - name: Generate release tag
         id: tag
-        if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+        if: steps.organize.outputs.status == 'success' env.UPLOAD_RELEASE == 'true' && !cancelled()
         run: |
           echo "release_tag=$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_OUTPUT
           touch release.txt
