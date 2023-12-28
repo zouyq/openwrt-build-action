@@ -42,7 +42,7 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu
+    runs-on: ${{ inputs.chosen-os }}
 
     steps:
       - name: Maximize build space
