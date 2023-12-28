@@ -174,7 +174,7 @@ jobs:
 
       - name: Generate release tag
         id: tag
-        if: steps.organize.outputs.status == 'success' env.UPLOAD_RELEASE == 'true' && !cancelled()
+        if: steps.organize.outputs.status == 'success' && env.UPLOAD_RELEASE == 'true' && !cancelled()
         run: |
           echo "release_tag=$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_OUTPUT
           touch release.txt
