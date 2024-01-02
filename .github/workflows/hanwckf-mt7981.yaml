@@ -146,7 +146,7 @@ jobs:
           rm -rf *.buildinfo 
           rm -rf *.json 
           rm -rf *.manifest 
-          zip -r package.zip packages && rm -rf package
+          zip -r package.zip packages && rm -rf packages
           echo "FIRMWARE=$PWD" >> $GITHUB_ENV
           echo "status=success" >> $GITHUB_OUTPUT
 
