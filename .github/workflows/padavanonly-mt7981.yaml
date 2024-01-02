@@ -143,11 +143,11 @@ jobs:
         if: steps.compile.outputs.status == 'success' && env.UPLOAD_FIRMWARE == 'true' && !cancelled()
         run: |
           cd openwrt/bin/targets/*/*
-          rm -rf *.bin
+          rm -rf *kernel.bin
           rm -rf *.buildinfo 
           rm -rf *.json 
           rm -rf *.manifest 
-          rm -rf packages
+          zip -r package.zip packages && rm -rf package
           echo "FIRMWARE=$PWD" >> $GITHUB_ENV
           echo "status=success" >> $GITHUB_OUTPUT
 
