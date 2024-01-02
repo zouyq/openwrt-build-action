@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: padavanonly-mt7981
+name: padavanonly/immortalwrt-mt798x
 
 on:
   repository_dispatch:
@@ -27,6 +27,7 @@ on:
           - ubuntu-22.04
 
 env:
+  TARGET: mt7981
   REPO_URL: https://github.com/padavanonly/immortalwrt-mt798x
   REPO_BRANCH: openwrt-21.02
   FEEDS_CONF: feeds.conf.default
@@ -84,9 +85,9 @@ jobs:
       - name: Load custom feeds
         run: |
           [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
-          chmod +x $DIY_P1_SH
+          chmod +x $TARGET/$DIY_P1_SH
           cd openwrt
-          $GITHUB_WORKSPACE/$DIY_P1_SH
+          $GITHUB_WORKSPACE/$TARGET/$DIY_P1_SH
 
       - name: Update feeds
         run: cd openwrt && ./scripts/feeds update -a
@@ -97,10 +98,10 @@ jobs:
       - name: Load custom configuration
         run: |
           [ -e files ] && mv files openwrt/files
-          [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
-          chmod +x $DIY_P2_SH
+          [ -e $TARGET/$CONFIG_FILE ] && mv $TARGET/$CONFIG_FILE openwrt/.config
+          chmod +x $TARGET/$DIY_P2_SH
           cd openwrt
-          $GITHUB_WORKSPACE/$DIY_P2_SH
+          $GITHUB_WORKSPACE/$TARGET/$DIY_P2_SH
 
       - name: SSH connection to Actions
         uses: P3TERX/ssh2actions@v1.0.0
@@ -142,11 +143,12 @@ jobs:
         id: organize
         if: steps.compile.outputs.status == 'success' && env.UPLOAD_FIRMWARE == 'true' && !cancelled()
         run: |
+          mv openwrt/bin/packages/* openwrt/bin/targets/*/*/packages
           cd openwrt/bin/targets/*/*
           rm -rf *kernel.bin
           rm -rf *.buildinfo 
           rm -rf *.json 
-          rm -rf *.manifest 
+          rm -rf *.manifest
           zip -r package.zip packages && rm -rf packages
           echo "FIRMWARE=$PWD" >> $GITHUB_ENV
           echo "status=success" >> $GITHUB_OUTPUT
@@ -192,7 +194,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.tag.outputs.release_tag }}
+          tag_name: $TARGET_${{ github.workflow }}_${{ steps.tag.outputs.release_tag }}
           body_path: release.txt
           files: ${{ env.FIRMWARE }}/*
 
@@ -202,11 +204,9 @@ jobs:
           retain_days: 1
           keep_minimum_runs: 3
 
-      - name: Remove old Releases
-        uses: mslovecc/delete-older-releases@v0.1.0
-        if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      - uses: dev-drprasad/delete-older-releases@master
         with:
-          keep_latest: 3
-          delete_tags: true
+          keep_latest: 5
+          delete_tag_pattern: ${{ github.workflow }}_
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

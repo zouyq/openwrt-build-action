@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: hanwckf/immortalwrt-mt798x
+name: coolsnowwolf/lede
 
 on:
   repository_dispatch:
@@ -27,11 +27,11 @@ on:
           - ubuntu-22.04
 
 env:
-  TARGET: mt7981
-  REPO_URL: https://github.com/hanwckf/immortalwrt-mt798x
-  REPO_BRANCH: openwrt-21.02
+  TARGET: x86_64
+  REPO_URL: https://github.com/coolsnowwolf/lede.git
+  REPO_BRANCH: master
   FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: hanwckf.config
+  CONFIG_FILE: coolsnowwolf.config
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
   UPLOAD_BIN_DIR: false
