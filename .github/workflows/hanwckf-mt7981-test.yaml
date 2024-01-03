@@ -99,12 +99,6 @@ jobs:
           cd openwrt
           $GITHUB_WORKSPACE/$DIY_P2_SH
 
-      - name: SSH connection to Actions
-        uses: lhotari/action-upterm@v1
-        with:
-          limit-access-to-actor: true
-          wait-timeout-minutes: 5
-
       - name: Download package
         id: package
         run: |
