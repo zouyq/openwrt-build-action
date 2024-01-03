@@ -100,7 +100,7 @@ jobs:
           cd openwrt
           $GITHUB_WORKSPACE/$TARGET/$DIY_P2_SH
 
-      - name: Setup upterm session
+      - name: SSH connection to Actions
         uses: lhotari/action-upterm@v1
         with:
           limit-access-to-actor: true
