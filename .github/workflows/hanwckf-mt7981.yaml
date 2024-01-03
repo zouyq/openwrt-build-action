@@ -67,7 +67,7 @@ jobs:
         run: |
           sudo -E apt -qq update -y
           sudo -E apt -qq full-upgrade -y
-          sudo -E apt -qq curl -y
+          sudo -E apt -qq install curl -y
           sudo -E apt -qq install $(curl -fsSL https://raw.githubusercontent.com/zouyq/openwrt-build-action/main/dep/ubuntu-22.04)
           sudo -E apt -qq autoremove --purge
           sudo -E apt -qq clean
