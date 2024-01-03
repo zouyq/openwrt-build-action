@@ -65,10 +65,10 @@ jobs:
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
-          echo $(curl -fsSL https://raw.githubusercontent.com/${{ github.repository_owner }}/${{ github.repository }}/$REPO_BRANCH/dep/${{ inputs.chosen-os }})
           sudo -E apt -qq update -y
           sudo -E apt -qq full-upgrade -y
-          sudo -E apt -qq install https://raw.githubusercontent.com/zouyq/openwrt-build-action/main/dep/ubuntu-22.04 -y
+          sudo -E apt -qq curl -y
+          sudo -E apt -qq install $(curl -fsSL https://raw.githubusercontent.com/zouyq/openwrt-build-action/main/dep/ubuntu-22.04)
           sudo -E apt -qq autoremove --purge
           sudo -E apt -qq clean
           sudo timedatectl set-timezone "$TZ"
@@ -104,8 +104,11 @@ jobs:
           $GITHUB_WORKSPACE/$TARGET/$DIY_P2_SH
 
       - name: SSH connection to Actions
-        uses: lhotari/action-upterm@v1
+        uses: P3TERX/ssh2actions@v1.0.0
         if: (github.event.inputs.ssh == 'true' && github.event.inputs.ssh  != 'false') || contains(github.event.action, 'ssh')
+        env:
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
 
       - name: Download package
         id: package
