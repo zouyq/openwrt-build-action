@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: hanwckf/immortalwrt-mt798x
+name: hanwckf_immortalwrt-mt798x
 
 on:
   repository_dispatch:
@@ -102,6 +102,7 @@ jobs:
 
       - name: SSH connection to Actions
         uses: lhotari/action-upterm@v1
+        if: (github.event.inputs.ssh == 'true' && github.event.inputs.ssh  != 'false') || contains(github.event.action, 'ssh')
         with:
           limit-access-to-actor: true
           wait-timeout-minutes: 5
