@@ -27,7 +27,7 @@ on:
           - ubuntu-22.04
 
 env:
-  TARGET: x86_64
+  TARGET_DIR: x86_64
   REPO_URL: https://github.com/openwrt/openwrt.git
   REPO_BRANCH: main
   FEEDS_CONF: feeds.conf.default

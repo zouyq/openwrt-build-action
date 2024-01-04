@@ -27,7 +27,7 @@ on:
           - ubuntu-22.04
 
 env:
-  TARGET: mt7981
+  TARGET_DIR: mt7981
   REPO_URL: https://github.com/padavanonly/immortalwrt-mt798x
   REPO_BRANCH: openwrt-21.02
   FEEDS_CONF: feeds.conf.default
