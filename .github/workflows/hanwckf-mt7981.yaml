@@ -12,6 +12,8 @@ name: hanwckf_immortalwrt-mt798x_mt7981
 
 on:
   repository_dispatch:
+  schedule:
+    - cron: "0 0 */3 * *"
   workflow_dispatch:
     inputs:
       ssh:
@@ -203,7 +205,7 @@ jobs:
 
       - uses: dev-drprasad/delete-older-releases@master
         with:
-          keep_latest: 5
+          keep_latest: 3
           delete_tag_pattern: ${{ github.workflow }}_
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
