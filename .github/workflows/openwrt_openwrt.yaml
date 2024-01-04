@@ -82,9 +82,9 @@ jobs:
       - name: Load custom feeds
         run: |
           [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
-          chmod +x $TARGET/$DIY_P1_SH
+          chmod +x $TARGET_DIR/$DIY_P1_SH
           cd openwrt
-          $GITHUB_WORKSPACE/$TARGET/$DIY_P1_SH
+          $GITHUB_WORKSPACE/$TARGET_DIR/$DIY_P1_SH
 
       - name: Update feeds
         run: cd openwrt && ./scripts/feeds update -a
@@ -95,10 +95,10 @@ jobs:
       - name: Load custom configuration
         run: |
           [ -e files ] && mv files openwrt/files
-          [ -e $TARGET/$CONFIG_FILE ] && mv $TARGET/$CONFIG_FILE openwrt/.config
-          chmod +x $TARGET/$DIY_P2_SH
+          [ -e $TARGET_DIR/$CONFIG_FILE ] && mv $TARGET_DIR/$CONFIG_FILE openwrt/.config
+          chmod +x $TARGET_DIR/$DIY_P2_SH
           cd openwrt
-          $GITHUB_WORKSPACE/$TARGET/$DIY_P2_SH
+          $GITHUB_WORKSPACE/$TARGET_DIR/$DIY_P2_SH
 
       - name: SSH connection to Actions
         uses: lhotari/action-upterm@v1
@@ -191,7 +191,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: $TARGET_${{ github.workflow }}_${{ steps.tag.outputs.release_tag }}
+          tag_name: ${{ github.workflow }}_${{ steps.tag.outputs.release_tag }}
           body_path: release.txt
           files: ${{ env.FIRMWARE }}/*
 
