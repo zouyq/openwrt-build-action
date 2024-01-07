@@ -22,7 +22,7 @@ on:
         default: 'false'
       chosen-os:
         required: true
-        default: 'ubuntu-22.04'
+        default: ubuntu-22.04
         type: choice
         options:
           - ubuntu-20.04
