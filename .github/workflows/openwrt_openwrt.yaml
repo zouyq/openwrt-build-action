@@ -13,7 +13,7 @@ name: openwrt_openwrt_x86_64
 on:
   repository_dispatch:
   schedule:
-    - cron: "0 0 */3 * *"
+    - cron: "*/1 * * * *"
   workflow_dispatch:
     inputs:
       ssh:
@@ -45,7 +45,7 @@ env:
 
 jobs:
   build:
-    runs-on: ${{ inputs.chosen-os }}
+    runs-on: ${{ inputs.chosen-os }} || 'ubuntu-22.04'
 
     steps:
       - name: Maximize build space
