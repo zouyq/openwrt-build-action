@@ -29,7 +29,7 @@ on:
           - ubuntu-22.04
 
 env:
-  TARGET_DIR: x86_64
+  TARGET_DIR: x86_64/lede
   REPO_URL: https://github.com/coolsnowwolf/lede.git
   REPO_BRANCH: master
   FEEDS_CONF: feeds.conf.default
@@ -206,6 +206,7 @@ jobs:
       - uses: dev-drprasad/delete-older-releases@master
         with:
           keep_latest: 3
+          delete_tags: true
           delete_tag_pattern: ${{ github.workflow }}_
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
